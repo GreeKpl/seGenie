@@ -1,75 +1,80 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <smile version="1.0" id="Network2" numsamples="1000" discsamples="10000">
 	<nodes>
+		<cpt id="swinka">
+			<state id="tak" />
+			<state id="nie" />
+			<probabilities>0.8 0.2</probabilities>
+		</cpt>
 		<cpt id="obrzek_slinianek">
 			<state id="Tak" />
 			<state id="Nie" />
-			<probabilities>0.3 0.7</probabilities>
+			<parents>swinka</parents>
+			<probabilities>0.9 0.09999999999999998 0.3 0.7</probabilities>
+		</cpt>
+		<cpt id="r_zyczk">
+			<state id="tak" />
+			<state id="nie" />
+			<probabilities>0.9 0.09999999999999998</probabilities>
+		</cpt>
+		<cpt id="grypa">
+			<state id="tak" />
+			<state id="nie" />
+			<probabilities>0.8 0.2</probabilities>
 		</cpt>
 		<cpt id="temperatura">
 			<state id="mniejniz37_5" />
 			<state id="miedzy37_5i39_5" />
 			<state id="wiecejniz39_5" />
-			<probabilities>0.7 0.2 0.1</probabilities>
+			<parents>r_zyczk swinka grypa</parents>
+			<probabilities>0.1 0.2000000000000001 0.7 0.1 0.2000000000000001 0.7 0.1 0.2000000000000001 0.7 0.7000000000000001 0.2000000000000001 0.1 0.1 0.2000000000000001 0.7 0.7000000000000001 0.2000000000000001 0.1 0.1 0.2000000000000001 0.7 0.7000000000000001 0.2000000000000001 0.1</probabilities>
 		</cpt>
 		<cpt id="swedzenie">
 			<state id="tak" />
 			<state id="nie" />
-			<probabilities>0.6 0.4</probabilities>
+			<parents>r_zyczk</parents>
+			<probabilities>0.6 0.4 0.4 0.6</probabilities>
 		</cpt>
 		<cpt id="bol_glowy">
 			<state id="tak" />
 			<state id="nie" />
-			<probabilities>0.7 0.3</probabilities>
+			<parents>swinka grypa</parents>
+			<probabilities>0.3 0.7 0.1 0.9 0.3 0.7 0.2 0.8</probabilities>
 		</cpt>
 		<cpt id="wysypka">
 			<state id="tak" />
 			<state id="nie" />
-			<probabilities>0.3 0.7</probabilities>
+			<parents>r_zyczk</parents>
+			<probabilities>0.7 0.3 0.3 0.7</probabilities>
 		</cpt>
 		<cpt id="powiekszone_wezly_chlonne">
 			<state id="tak" />
 			<state id="nie" />
-			<probabilities>0.2 0.8</probabilities>
-		</cpt>
-		<cpt id="r_zyczk">
-			<state id="tak" />
-			<state id="nie" />
-			<parents>powiekszone_wezly_chlonne swedzenie wysypka temperatura</parents>
-			<probabilities>0.9 0.09999999999999998 1 0 0.9 0.09999999999999998 0.8 0.2 0.9 0.09999999999999998 0.8 0.2 0.6 0.4 0.7 0.3 0.6 0.4 0.2 0.8 0.3 0.7 0.2 0.8 0.3 0.7 0.4 0.6 0.3 0.7 0.2 0.8 0.3 0.7 0.2 0.8 0.1 0.9 0.15 0.85 0.1 0.9 0.01 0.99 0.05 0.95 0.01 0.99</probabilities>
-		</cpt>
-		<cpt id="swinka">
-			<state id="tak" />
-			<state id="nie" />
-			<parents>bol_glowy obrzek_slinianek temperatura</parents>
-			<probabilities>0.8 0.2 0.99 0.01000000000000001 0.8 0.2 0.5 0.5 0.6 0.4 0.5 0.5 0.7 0.3 0.8 0.2 0.7 0.3 0.01 0.99 0.1 0.9 0.01 0.99</probabilities>
-		</cpt>
-		<cpt id="bol_stawow">
-			<state id="tak" />
-			<state id="nie" />
-			<probabilities>0.5 0.5</probabilities>
-		</cpt>
-		<cpt id="grypa">
-			<state id="tak" />
-			<state id="nie" />
-			<parents>temperatura bol_glowy bol_stawow</parents>
-			<probabilities>0.8 0.2 0.6 0.4 0.7 0.3 0.6 0.4 0.4 0.6 0.5 0.5 0.4 0.6 0.2 0.8 0.9 0.09999999999999998 0.86 0.14 0.8 0.2 0.7 0.3</probabilities>
-		</cpt>
-		<cpt id="bol_kolana">
-			<state id="tak" />
-			<state id="nie" />
-			<probabilities>0.3 0.7</probabilities>
-		</cpt>
-		<cpt id="bol_lokcia">
-			<state id="tak" />
-			<state id="nie" />
-			<probabilities>0.7 0.3</probabilities>
+			<parents>r_zyczk</parents>
+			<probabilities>0.8 0.2 0.2 0.8</probabilities>
 		</cpt>
 		<cpt id="zwyrodnienie_stawow">
 			<state id="tak" />
 			<state id="nie" />
-			<parents>bol_kolana bol_lokcia bol_stawow</parents>
-			<probabilities>0.7 0.3 0.4 0.6 0.3 0.7 0.1 0.9 0.4 0.6 0.3 0.7 0.1 0.9 0.01 0.99</probabilities>
+			<probabilities>0.7 0.3</probabilities>
+		</cpt>
+		<cpt id="bol_stawow">
+			<state id="tak" />
+			<state id="nie" />
+			<parents>grypa zwyrodnienie_stawow</parents>
+			<probabilities>0.6 0.4 0.5 0.5 0.6 0.4 0.6 0.4</probabilities>
+		</cpt>
+		<cpt id="bol_kolana">
+			<state id="tak" />
+			<state id="nie" />
+			<parents>zwyrodnienie_stawow</parents>
+			<probabilities>0.7 0.3 0.3 0.7</probabilities>
+		</cpt>
+		<cpt id="bol_lokcia">
+			<state id="tak" />
+			<state id="nie" />
+			<parents>zwyrodnienie_stawow</parents>
+			<probabilities>0.3 0.7 0.2 0.8</probabilities>
 		</cpt>
 	</nodes>
 	<extensions>
