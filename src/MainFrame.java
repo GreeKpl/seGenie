@@ -39,7 +39,7 @@ public class MainFrame extends JFrame {
 
         }
 
-        getContentPane().setLayout(new BorderLayout());
+        getContentPane().setLayout(new GridLayout(2, 1));
 
         JPanel choices = new JPanel();
         choices.setLayout(new BoxLayout(choices, BoxLayout.Y_AXIS));
@@ -104,19 +104,21 @@ public class MainFrame extends JFrame {
                 }
             }
             for (Map.Entry<Integer, String> a : orderedIllnesses.descendingMap().entrySet()) {
-                results.add(new Label(a.getValue() + a.getKey() + "%"));
+                results.add(new Label(a.getValue() + " - " + a.getKey() + "%"));
             }
-
-
             getContentPane().revalidate();
             getContentPane().repaint();
 
 
         });
 
-        getContentPane().add(choices, BorderLayout.CENTER);
-        getContentPane().add(results, BorderLayout.EAST);
-        getContentPane().add(okButton, BorderLayout.SOUTH);
+        JPanel okButtonPanel = new JPanel();
+        okButtonPanel.setLayout(new BorderLayout());
+        okButtonPanel.add(okButton, BorderLayout.SOUTH);
+
+        getContentPane().add(choices);
+        getContentPane().add(results);
+        getContentPane().add(okButtonPanel);
 
         setSize(500 ,400);
         setVisible(true);
