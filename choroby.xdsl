@@ -12,10 +12,11 @@
 			<parents>swinka</parents>
 			<probabilities>0.9 0.09999999999999998 0.3 0.7</probabilities>
 		</cpt>
-		<cpt id="r_zyczk">
+		<cpt id="rozyczka">
 			<state id="tak" />
 			<state id="nie" />
 			<probabilities>0.9 0.09999999999999998</probabilities>
+			<property id="type">choroba</property>
 		</cpt>
 		<cpt id="grypa">
 			<state id="tak" />
@@ -26,13 +27,13 @@
 			<state id="mniejniz37_5" />
 			<state id="miedzy37_5i39_5" />
 			<state id="wiecejniz39_5" />
-			<parents>r_zyczk swinka grypa</parents>
+			<parents>rozyczka swinka grypa</parents>
 			<probabilities>0.1 0.2000000000000001 0.7 0.1 0.2000000000000001 0.7 0.1 0.2000000000000001 0.7 0.7000000000000001 0.2000000000000001 0.1 0.1 0.2000000000000001 0.7 0.7000000000000001 0.2000000000000001 0.1 0.1 0.2000000000000001 0.7 0.7000000000000001 0.2000000000000001 0.1</probabilities>
 		</cpt>
 		<cpt id="swedzenie">
 			<state id="tak" />
 			<state id="nie" />
-			<parents>r_zyczk</parents>
+			<parents>rozyczka</parents>
 			<probabilities>0.6 0.4 0.4 0.6</probabilities>
 		</cpt>
 		<cpt id="bol_glowy">
@@ -44,13 +45,13 @@
 		<cpt id="wysypka">
 			<state id="tak" />
 			<state id="nie" />
-			<parents>r_zyczk</parents>
+			<parents>rozyczka</parents>
 			<probabilities>0.7 0.3 0.3 0.7</probabilities>
 		</cpt>
 		<cpt id="powiekszone_wezly_chlonne">
 			<state id="tak" />
 			<state id="nie" />
-			<parents>r_zyczk</parents>
+			<parents>rozyczka</parents>
 			<probabilities>0.8 0.2 0.2 0.8</probabilities>
 		</cpt>
 		<cpt id="zwyrodnienie_stawow">
@@ -121,7 +122,7 @@
 				<font color="000000" name="Arial" size="8" />
 				<position>254 167 362 218</position>
 			</node>
-			<node id="r_zyczk">
+			<node id="rozyczka">
 				<name>rózyczka</name>
 				<interior color="e5f6f7" />
 				<outline color="000080" />
