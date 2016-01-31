@@ -18,6 +18,8 @@ public class MainFrame extends JFrame {
 
     private final List<String> symptoms = new ArrayList<>();
     private final List<String> illnesses = new ArrayList<>();
+    private final List<String> medicines = new ArrayList<>();
+
     private final Map<String, JCheckBox> checkboxes = new HashMap<>();
 
     public MainFrame() {
@@ -35,6 +37,8 @@ public class MainFrame extends JFrame {
                 symptoms.add(nodeId);
             } else if (isInstanceOf(nodeId, "choroba")) {
                 illnesses.add(nodeId);
+            } else if (isInstanceOf(nodeId, "lek")) {
+                medicines.add(nodeId);
             }
         }
 
@@ -120,20 +124,27 @@ public class MainFrame extends JFrame {
 
         results.removeAll();
         TreeMap<Integer, String> orderedIllnesses = new TreeMap<>();
-        for (String nodeId : network.getAllNodeIds()) {
-            if (illnesses.contains(nodeId)) {
-                if (network.isValueValid(nodeId)) {
-                    double[] allProbabilities = network.getNodeValue(nodeId);
-                    double yesChance = allProbabilities[0]; // yes
-                    orderedIllnesses.put((int) Math.round(yesChance * 100), network.getNodeName(nodeId));
-                } else {
-                    System.out.println(nodeId + " is invalid");
-                }
-            }
+        for (String nodeId : illnesses) {
+            double[] allProbabilities = network.getNodeValue(nodeId);
+            double yesChance = allProbabilities[0]; // yes
+                orderedIllnesses.put((int) Math.round(yesChance * 100), network.getNodeName(nodeId));
+        }
+
+        TreeMap<Integer, String> orderedMedicines = new TreeMap<>();
+        for (String nodeId : medicines) {
+            double[] allProbabilities = network.getNodeValue(nodeId);
+            double yesChance = allProbabilities[0]; // yes
+            orderedMedicines.put((int) Math.round(yesChance * 100), network.getNodeName(nodeId));
         }
 
         // pokaz prawdopodobienstwo poszczegolnych chorob
+        results.add(new Label("Prawdopodobieństwo posiadania choroby:"));
         for (Map.Entry<Integer, String> a : orderedIllnesses.descendingMap().entrySet()) {
+            results.add(new Label(a.getValue() + " - " + a.getKey() + "%"));
+        }
+
+        results.add(new Label("Prawdopodobieństwo skuteczności leku:"));
+        for (Map.Entry<Integer, String> a : orderedMedicines.descendingMap().entrySet()) {
             results.add(new Label(a.getValue() + " - " + a.getKey() + "%"));
         }
 
