@@ -5,12 +5,14 @@
 			<state id="tak" />
 			<state id="nie" />
 			<probabilities>0.8 0.2</probabilities>
+			<property id="type">choroba</property>
 		</cpt>
 		<cpt id="obrzek_slinianek">
 			<state id="Tak" />
 			<state id="Nie" />
 			<parents>swinka</parents>
 			<probabilities>0.9 0.09999999999999998 0.3 0.7</probabilities>
+			<property id="type">objaw</property>
 		</cpt>
 		<cpt id="rozyczka">
 			<state id="tak" />
@@ -22,6 +24,7 @@
 			<state id="tak" />
 			<state id="nie" />
 			<probabilities>0.8 0.2</probabilities>
+			<property id="type">choroba</property>
 		</cpt>
 		<cpt id="temperatura">
 			<state id="mniejniz37_5" />
@@ -29,53 +32,62 @@
 			<state id="wiecejniz39_5" />
 			<parents>rozyczka swinka grypa</parents>
 			<probabilities>0.1 0.2000000000000001 0.7 0.1 0.2000000000000001 0.7 0.1 0.2000000000000001 0.7 0.7000000000000001 0.2000000000000001 0.1 0.1 0.2000000000000001 0.7 0.7000000000000001 0.2000000000000001 0.1 0.1 0.2000000000000001 0.7 0.7000000000000001 0.2000000000000001 0.1</probabilities>
+			<property id="type">temperatura</property>
 		</cpt>
 		<cpt id="swedzenie">
 			<state id="tak" />
 			<state id="nie" />
 			<parents>rozyczka</parents>
 			<probabilities>0.6 0.4 0.4 0.6</probabilities>
+			<property id="type">objaw</property>
 		</cpt>
 		<cpt id="bol_glowy">
 			<state id="tak" />
 			<state id="nie" />
 			<parents>swinka grypa</parents>
 			<probabilities>0.3 0.7 0.1 0.9 0.3 0.7 0.2 0.8</probabilities>
+			<property id="type">objaw</property>
 		</cpt>
 		<cpt id="wysypka">
 			<state id="tak" />
 			<state id="nie" />
 			<parents>rozyczka</parents>
 			<probabilities>0.7 0.3 0.3 0.7</probabilities>
+			<property id="type">objaw</property>
 		</cpt>
 		<cpt id="powiekszone_wezly_chlonne">
 			<state id="tak" />
 			<state id="nie" />
 			<parents>rozyczka</parents>
 			<probabilities>0.8 0.2 0.2 0.8</probabilities>
+			<property id="type">objaw</property>
 		</cpt>
 		<cpt id="zwyrodnienie_stawow">
 			<state id="tak" />
 			<state id="nie" />
 			<probabilities>0.7 0.3</probabilities>
+			<property id="type">choroba</property>
 		</cpt>
 		<cpt id="bol_stawow">
 			<state id="tak" />
 			<state id="nie" />
 			<parents>grypa zwyrodnienie_stawow</parents>
 			<probabilities>0.6 0.4 0.5 0.5 0.6 0.4 0.6 0.4</probabilities>
+			<property id="type">objaw</property>
 		</cpt>
 		<cpt id="bol_kolana">
 			<state id="tak" />
 			<state id="nie" />
 			<parents>zwyrodnienie_stawow</parents>
 			<probabilities>0.7 0.3 0.3 0.7</probabilities>
+			<property id="type">objaw</property>
 		</cpt>
 		<cpt id="bol_lokcia">
 			<state id="tak" />
 			<state id="nie" />
 			<parents>zwyrodnienie_stawow</parents>
 			<probabilities>0.3 0.7 0.2 0.8</probabilities>
+			<property id="type">objaw</property>
 		</cpt>
 	</nodes>
 	<extensions>

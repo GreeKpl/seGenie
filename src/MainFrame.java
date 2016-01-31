@@ -1,15 +1,15 @@
-import com.sun.org.apache.xpath.internal.SourceTree;
 import smile.Network;
+import smile.UserProperty;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-/**
- * Created by alek on 14.01.16.
- */
+
 public class MainFrame extends JFrame {
+
+    private final Network network;
 
     public static void main(String[] args) {
         MainFrame mainFrame = new MainFrame();
@@ -17,26 +17,25 @@ public class MainFrame extends JFrame {
     }
 
     private final List<String> symptoms = new ArrayList<>();
+    private final List<String> illnesses = new ArrayList<>();
     private final Map<String, JCheckBox> checkboxes = new HashMap<>();
 
     public MainFrame() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
-        Network n = new Network();
-        n.readFile("choroby.xdsl");
+        network = new Network();
+        network.readFile("choroby.xdsl");
 
-        String[] nodeIds = n.getAllNodeIds();
+        String[] nodeIds = network.getAllNodeIds();
         for (String nodeId : nodeIds) {
-            System.out.println(n.getNode(nodeId) + " " + n.getNodeName(nodeId));
+            System.out.println(network.getNode(nodeId) + " " + network.getNodeName(nodeId));
 
-            if (n.getChildIds(nodeId).length > 0) {
+            if (isInstanceOf(nodeId, "objaw")) {
                 symptoms.add(nodeId);
-                System.out.println(Arrays.toString(n.getChildIds(nodeId)));
+            } else if (isInstanceOf(nodeId, "choroba")) {
+                illnesses.add(nodeId);
             }
-
-
-
         }
 
         getContentPane().setLayout(new GridLayout(2, 1));
@@ -45,27 +44,18 @@ public class MainFrame extends JFrame {
         choices.setLayout(new BoxLayout(choices, BoxLayout.Y_AXIS));
 
         for (String symptom : symptoms) {
-            if (!symptom.equals("temperatura")) {
-                JCheckBox jCheckBox = new JCheckBox(symptom);
+            JCheckBox checkBox = new JCheckBox(network.getNodeName(symptom));
 
-                choices.add(jCheckBox);
-                checkboxes.put(symptom, jCheckBox);
-            }
+            choices.add(checkBox);
+            checkboxes.put(symptom, checkBox);
         }
 
         JPanel temperatura = new JPanel();
-        JRadioButton brakTemperatury = new JRadioButton("<37.0");
-        JRadioButton niskaTemperatura = new JRadioButton("37.0<x<39.0");
-        JRadioButton wysokaTemperatura = new JRadioButton(">39.0");
-        brakTemperatury.setSelected(true);
-        ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add(brakTemperatury);
-        buttonGroup.add(niskaTemperatura);
-        buttonGroup.add(wysokaTemperatura);
+        JRadioButton brakTemperatury = new JRadioButton("< 37.5");
+        JRadioButton niskaTemperatura = new JRadioButton("37.5 < x < 39.5");
+        JRadioButton wysokaTemperatura = new JRadioButton("> 39.5");
 
-        temperatura.add(brakTemperatury);
-        temperatura.add(niskaTemperatura);
-        temperatura.add(wysokaTemperatura);
+        createTemperaturePanel(temperatura, brakTemperatury, niskaTemperatura, wysokaTemperatura);
 
         choices.add(temperatura);
 
@@ -75,41 +65,7 @@ public class MainFrame extends JFrame {
         JButton okButton = new JButton("OK");
 
         okButton.addActionListener(e -> {
-
-            for (String symptom : checkboxes.keySet()) { // set everything but temperature
-                n.setEvidence(symptom, checkboxes.get(symptom).isSelected() ? 0 : 1);
-            }
-
-            if (brakTemperatury.isSelected()) {
-                n.setEvidence("temperatura", 0);
-            } else if (niskaTemperatura.isSelected()) {
-                n.setEvidence("temperatura", 1);
-            } else if (wysokaTemperatura.isSelected()) {
-                n.setEvidence("temperatura", 2);
-            }
-
-            n.updateBeliefs();
-
-            results.removeAll();
-            TreeMap<Integer, String> orderedIllnesses = new TreeMap<>();
-            for (String nodeId : n.getAllNodeIds()) {
-                if (!symptoms.contains(nodeId)) {
-                    if (n.isValueValid(nodeId)) {
-                        double[] allProbabilities = n.getNodeValue(nodeId);
-                        double yesChance = allProbabilities[0]; // yes
-                        orderedIllnesses.put((int)Math.round(yesChance * 100), n.getNodeName(nodeId));
-                    } else {
-                        System.out.println(nodeId + " is invalid");
-                    }
-                }
-            }
-            for (Map.Entry<Integer, String> a : orderedIllnesses.descendingMap().entrySet()) {
-                results.add(new Label(a.getValue() + " - " + a.getKey() + "%"));
-            }
-            getContentPane().revalidate();
-            getContentPane().repaint();
-
-
+            onButtonClick(network, brakTemperatury, niskaTemperatura, wysokaTemperatura, results);
         });
 
         JPanel okButtonPanel = new JPanel();
@@ -120,7 +76,68 @@ public class MainFrame extends JFrame {
         getContentPane().add(results);
         getContentPane().add(okButtonPanel);
 
-        setSize(500 ,400);
+        setSize(800, 500);
         setVisible(true);
+    }
+
+    private boolean isInstanceOf(String nodeId, String typeName) {
+        for (UserProperty prop : network.getNodeUserProperties(nodeId)) {
+            if (prop.name.equals("type") && prop.value.equals(typeName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void createTemperaturePanel(JPanel temperatura, JRadioButton brakTemperatury,
+                                        JRadioButton niskaTemperatura, JRadioButton wysokaTemperatura) {
+        brakTemperatury.setSelected(true);
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(brakTemperatury);
+        buttonGroup.add(niskaTemperatura);
+        buttonGroup.add(wysokaTemperatura);
+
+        temperatura.add(brakTemperatury);
+        temperatura.add(niskaTemperatura);
+        temperatura.add(wysokaTemperatura);
+    }
+
+    private void onButtonClick(Network network, JRadioButton brakTemperatury, JRadioButton niskaTemperatura,
+                               JRadioButton wysokaTemperatura, JPanel results) {
+        for (String symptom : checkboxes.keySet()) { // set everything but temperature
+            network.setEvidence(symptom, checkboxes.get(symptom).isSelected() ? 0 : 1);
+        }
+
+        if (brakTemperatury.isSelected()) {
+            network.setEvidence("temperatura", 0);
+        } else if (niskaTemperatura.isSelected()) {
+            network.setEvidence("temperatura", 1);
+        } else if (wysokaTemperatura.isSelected()) {
+            network.setEvidence("temperatura", 2);
+        }
+
+        network.updateBeliefs();
+
+        results.removeAll();
+        TreeMap<Integer, String> orderedIllnesses = new TreeMap<>();
+        for (String nodeId : network.getAllNodeIds()) {
+            if (illnesses.contains(nodeId)) {
+                if (network.isValueValid(nodeId)) {
+                    double[] allProbabilities = network.getNodeValue(nodeId);
+                    double yesChance = allProbabilities[0]; // yes
+                    orderedIllnesses.put((int) Math.round(yesChance * 100), network.getNodeName(nodeId));
+                } else {
+                    System.out.println(nodeId + " is invalid");
+                }
+            }
+        }
+
+        // pokaz prawdopodobienstwo poszczegolnych chorob
+        for (Map.Entry<Integer, String> a : orderedIllnesses.descendingMap().entrySet()) {
+            results.add(new Label(a.getValue() + " - " + a.getKey() + "%"));
+        }
+
+        getContentPane().revalidate();
+        getContentPane().repaint();
     }
 }
