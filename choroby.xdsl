@@ -71,8 +71,8 @@
 		<cpt id="bol_stawow">
 			<state id="tak" />
 			<state id="nie" />
-			<parents>grypa zwyrodnienie_stawow</parents>
-			<probabilities>0.6 0.4 0.5 0.5 0.6 0.4 0.6 0.4</probabilities>
+			<parents>zwyrodnienie_stawow</parents>
+			<probabilities>0.9 0.09999999999999998 0.3 0.7</probabilities>
 			<property id="type">objaw</property>
 		</cpt>
 		<cpt id="bol_kolana">
@@ -88,6 +88,34 @@
 			<parents>zwyrodnienie_stawow</parents>
 			<probabilities>0.3 0.7 0.2 0.8</probabilities>
 			<property id="type">objaw</property>
+		</cpt>
+		<cpt id="amol">
+			<state id="warto" />
+			<state id="nie_warto" />
+			<parents>rozyczka swinka grypa</parents>
+			<probabilities>0.6 0.4 0.4 0.6 0.3 0.7 0.2 0.8 0.4 0.6 0.3 0.7 0.2 0.8 0.1 0.9</probabilities>
+			<property id="type">lek</property>
+		</cpt>
+		<cpt id="gripex">
+			<state id="tak" />
+			<state id="nie" />
+			<parents>swinka grypa</parents>
+			<probabilities>0.8 0.2 0.2 0.8 0.99 0.01000000000000001 0 1</probabilities>
+			<property id="type">lek</property>
+		</cpt>
+		<cpt id="polopiryna">
+			<state id="warto" />
+			<state id="nie_warto" />
+			<parents>rozyczka swinka</parents>
+			<probabilities>0.9 0.09999999999999998 0.1 0.9 0.6 0.4 0.01 0.99</probabilities>
+			<property id="type">lek</property>
+		</cpt>
+		<cpt id="masc_na_stawy">
+			<state id="warto" />
+			<state id="nie_warto" />
+			<parents>zwyrodnienie_stawow grypa</parents>
+			<probabilities>0.3 0.7 0.99 0.01000000000000001 0 1 0.1 0.9</probabilities>
+			<property id="type">lek</property>
 		</cpt>
 	</nodes>
 	<extensions>
@@ -182,6 +210,34 @@
 				<outline color="000080" />
 				<font color="000000" name="Arial" size="8" />
 				<position>880 306 970 362</position>
+			</node>
+			<node id="amol">
+				<name>amol</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>527 492 569 518</position>
+			</node>
+			<node id="gripex">
+				<name>gripex</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>650 488 698 518</position>
+			</node>
+			<node id="polopiryna">
+				<name>polopiryna</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>333 480 397 520</position>
+			</node>
+			<node id="masc_na_stawy">
+				<name>masc na stawy</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>785 476 883 519</position>
 			</node>
 		</genie>
 	</extensions>
